@@ -7,16 +7,16 @@ class Person():
 
 class Mitarbeiter(Person):
     def __init__(self,firstname, lastname, ismale, work):
-        Person.__init__(self, firstname, lastname, ismale)
+        super().__init__(firstname, lastname, ismale)
         self.work = work
 
-    def work(self):
+    def worken(self):
         print("Ich bin ein Mitarbeiter am Arbeiten.")
 
 
 class Gruppenleiter(Mitarbeiter):
     def __init__(self,firstname, lastname, ismale, work, lead = True):
-        Mitarbeiter.__init__(self, firstname, lastname, ismale, work)
+        super().__init__(firstname, lastname, ismale, work)
         self.lead = lead
 
     def lead(self):
@@ -67,7 +67,7 @@ class Firma:
                     countw += 1
 
         all = countm + countw
-        return "male percentage: " + countm/all + ", female percentage: " + countw/all
+        return "male percentage: " + "{:.2f}".format((countm/all)*100) + " %, female percentage: " + "{:.2f}".format((countw/all)*100) +" %"
 
 
 class Abteilung:
@@ -78,7 +78,28 @@ class Abteilung:
         self.gruppenleiter.append(gruppenleiter)
 
 
-
 if __name__ == '__main__':
     gl = Gruppenleiter("Guido", "Kurz", True, 10)
-    print(gl.lead)
+    gl2 = Gruppenleiter("Andreas", "Remair", True, 10)
+
+    firma = Firma("Schule")
+    abt = Abteilung("Wirtschaft", gl)
+    firma.abteilungen.append(abt)
+    abt2 = Abteilung("Maschinbau", gl2)
+    firma.abteilungen.append(abt2)
+
+    ma1 = Mitarbeiter("Jürgen", "von der Lippe", True, True)
+    ma2 = Mitarbeiter("Barbara", "Rabarbara", False, True)
+    ma3 = Mitarbeiter("Andreas", "Holzmann", True, True)
+    abt.mitarbeiter.append(ma1)
+    abt.mitarbeiter.append(ma2)
+    abt.mitarbeiter.append(ma3)
+    abt2.mitarbeiter.append(ma1)
+
+    print(firma.meistema().name)
+    print(firma.countabts())
+    print(firma.prozentfm())
+    print(firma.countma())
+    print(firma.countgl())
+
+
